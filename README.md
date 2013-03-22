@@ -1,4 +1,4 @@
-fixjavadoc-maven-plugin
+fixsource-maven-plugin
 =======================
 
-Javadoc correction utilities.
+Source correction utilities.

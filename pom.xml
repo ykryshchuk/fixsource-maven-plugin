@@ -8,22 +8,22 @@
     <version>1.1.1</version>
   </parent>
 
-  <artifactId>fixjavadoc-maven-plugin</artifactId>
+  <artifactId>fixsource-maven-plugin</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
   <name>Maven FixSource Plugin</name>
 
-  <description> This plugin fixes several problems in javasources. </description>
+  <description> This plugin helps to fix several issues in project's sources. </description>
 
   <inceptionYear>2013</inceptionYear>
 
-  <url>http://ykryshchuk.github.com/fixjavadoc-maven-plugin/</url>
+  <url>http://ykryshchuk.github.com/fixsource-maven-plugin/</url>
 
   <scm>
-    <connection>scm:git:git://github.com/ykryshchuk/fixjavadoc-maven-plugin.git</connection>
-    <developerConnection>scm:git:git@github.com:ykryshchuk/fixjavadoc-maven-plugin.git</developerConnection>
-    <url>git@github.com:ykryshchuk/fixjavadoc-maven-plugin.git</url>
+    <connection>scm:git:git://github.com/ykryshchuk/fixsource-maven-plugin.git</connection>
+    <developerConnection>scm:git:git@github.com:ykryshchuk/fixsource-maven-plugin.git</developerConnection>
+    <url>git@github.com:ykryshchuk/fixsource-maven-plugin.git</url>
     <tag>HEAD</tag>
   </scm>
 
@@ -76,7 +76,7 @@
   </dependencies>
 
   <properties>
-    <plugin.goalPrefix>fixjavadoc</plugin.goalPrefix>
+    <plugin.goalPrefix>fixsource</plugin.goalPrefix>
   </properties>
 
 </project>

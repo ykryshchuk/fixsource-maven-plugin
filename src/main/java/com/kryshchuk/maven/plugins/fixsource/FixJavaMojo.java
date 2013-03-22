@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.kryshchuk.maven.plugins.fixjavadoc;
+package com.kryshchuk.maven.plugins.fixsource;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -31,25 +31,25 @@ import com.kryshchuk.maven.plugins.filevisitor.VisitorException;
 /**
  * @author yura
  */
-@Mojo(name = "easy-fix", defaultPhase = LifecyclePhase.PROCESS_SOURCES, threadSafe = true, requiresProject = true)
-public class EasyFixMojo extends AbstractMojo {
+@Mojo(name = "fix-java", defaultPhase = LifecyclePhase.PROCESS_SOURCES, threadSafe = true, requiresProject = true)
+public class FixJavaMojo extends AbstractMojo {
 
   @Parameter(defaultValue = "${project}", required = true, readonly = true)
   private MavenProject mavenProject;
 
-  @Parameter(defaultValue = "true", property = "fixjavadoc.fixDevelopmentVersion")
+  @Parameter(defaultValue = "true", property = "fixjava.fixDevelopmentVersion")
   private boolean fixDevelopmentVersion;
 
-  @Parameter(defaultValue = "true", property = "fixjavadoc.fixHeader")
+  @Parameter(defaultValue = "true", property = "fixjava.fixHeader")
   private boolean fixHeader;
 
-  @Parameter(defaultValue = "${basedir}/src/template/COPYRIGHT-java.txt", property = "fixjavadoc.headerTemplate")
+  @Parameter(defaultValue = "${basedir}/src/template/java-header.txt", property = "fixjava.headerTemplate")
   private File headerTemplateFile;
 
   @Parameter(defaultValue = "false", property = "dryRun")
   private boolean dryRun;
 
-  private LicenseSource licenseSource;
+  private HeaderSource headerSource;
 
   private String sinceVersion;
 
@@ -58,10 +58,10 @@ public class EasyFixMojo extends AbstractMojo {
     final FileSetIterator i = new FileSetIterator(fileset, new IdentityFileMapper());
     try {
       try {
-        licenseSource = new LicenseSource();
-        licenseSource.read(headerTemplateFile);
+        headerSource = new HeaderSource();
+        headerSource.read(headerTemplateFile);
       } catch (final IOException e) {
-        throw new MojoExecutionException("Could not read license file", e);
+        throw new MojoExecutionException("Could not read java header template", e);
       }
       final String sinceComplex = "@since " + mavenProject.getVersion();
       sinceVersion = sinceComplex.endsWith("-SNAPSHOT") ? sinceComplex.substring(0, sinceComplex.length() - 9)
@@ -80,10 +80,11 @@ public class EasyFixMojo extends AbstractMojo {
         final JavaSource javaSource = new JavaSource();
         javaSource.read(inputFile);
         if (javaSource.fix()) {
-          if (!dryRun) {
-            javaSource.store(outputFile);
-          } else {
+          if (dryRun) {
             getLog().info("Source would be fixed " + inputFile);
+          } else {
+            javaSource.store(outputFile);
+            getLog().info("Fixed " + inputFile);
           }
         }
       } catch (final IOException e) {
@@ -98,7 +99,7 @@ public class EasyFixMojo extends AbstractMojo {
 
   }
 
-  private abstract class Source {
+  private abstract class AbstractSource {
 
     protected final List<String> lines = new LinkedList<String>();
 
@@ -126,7 +127,7 @@ public class EasyFixMojo extends AbstractMojo {
 
   }
 
-  private class LicenseSource extends Source {
+  private class HeaderSource extends AbstractSource {
 
     @Override
     protected void read(final File file) throws IOException {
@@ -154,7 +155,7 @@ public class EasyFixMojo extends AbstractMojo {
 
   }
 
-  private class JavaSource extends Source {
+  private class JavaSource extends AbstractSource {
 
     private int packageLine = -1;
 
@@ -181,11 +182,11 @@ public class EasyFixMojo extends AbstractMojo {
         developmentVersionFixed = true;
       }
       boolean headerFixed = false;
-      if (!licenseSource.matches(this)) {
+      if (!headerSource.matches(this)) {
         if (packageLine != -1) {
           lines.subList(0, packageLine).clear();
         }
-        lines.addAll(0, licenseSource.lines);
+        lines.addAll(0, headerSource.lines);
         headerFixed = true;
       }
       return developmentVersionFixed || headerFixed;
