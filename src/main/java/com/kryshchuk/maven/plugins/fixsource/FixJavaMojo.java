@@ -23,7 +23,6 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
 import com.kryshchuk.maven.plugins.filevisitor.AbstractFileVisitor;
-import com.kryshchuk.maven.plugins.filevisitor.FileMapper;
 import com.kryshchuk.maven.plugins.filevisitor.FileSet;
 import com.kryshchuk.maven.plugins.filevisitor.FileSetIterator;
 import com.kryshchuk.maven.plugins.filevisitor.VisitorException;
@@ -35,7 +34,7 @@ import com.kryshchuk.maven.plugins.filevisitor.VisitorException;
 public class FixJavaMojo extends AbstractMojo {
 
   @Parameter(defaultValue = "${project}", required = true, readonly = true)
-  private MavenProject mavenProject;
+  protected MavenProject mavenProject;
 
   @Parameter(defaultValue = "true", property = "fixjava.fixDevelopmentVersion")
   private boolean fixDevelopmentVersion;
@@ -54,8 +53,7 @@ public class FixJavaMojo extends AbstractMojo {
   private String sinceVersion;
 
   public void execute() throws MojoExecutionException, MojoFailureException {
-    final JavaSourcesSet fileset = new JavaSourcesSet();
-    final FileSetIterator i = new FileSetIterator(fileset, new IdentityFileMapper());
+    final FileSetIterator i = new FileSetIterator(getJavaSourcesSet(), new IdentityFileMapper());
     try {
       try {
         headerSource = new HeaderSource();
@@ -70,6 +68,10 @@ public class FixJavaMojo extends AbstractMojo {
     } catch (final VisitorException e) {
       throw new MojoExecutionException("Could not easy fix sources", e);
     }
+  }
+
+  protected JavaSourcesSet getJavaSourcesSet() {
+    return new JavaSourcesSet();
   }
 
   private class JavaSourceFixer extends AbstractFileVisitor {
@@ -150,7 +152,8 @@ public class FixJavaMojo extends AbstractMojo {
           return false;
         }
       }
-      return true;
+      final String packageLine = javaLines.next();
+      return packageLine.startsWith("package ");
     }
 
   }
@@ -163,7 +166,7 @@ public class FixJavaMojo extends AbstractMojo {
 
     @Override
     protected String handleLine(final String line, final int index) {
-      if (line.startsWith("package ") && packageLine != -1) {
+      if (line.startsWith("package ") && packageLine == -1) {
         packageLine = index;
       }
       if (line.indexOf("@sinceDevelopmentVersion") != -1) {
@@ -183,10 +186,11 @@ public class FixJavaMojo extends AbstractMojo {
       }
       boolean headerFixed = false;
       if (!headerSource.matches(this)) {
-        if (packageLine != -1) {
-          lines.subList(0, packageLine).clear();
+        while (packageLine-- > 0) {
+          lines.remove(0);
         }
         lines.addAll(0, headerSource.lines);
+        packageLine = headerSource.lines.size();
         headerFixed = true;
       }
       return developmentVersionFixed || headerFixed;
@@ -209,22 +213,16 @@ public class FixJavaMojo extends AbstractMojo {
 
   }
 
-  private class IdentityFileMapper implements FileMapper {
+  class JavaSourcesSet extends FileSet {
 
-    public File getMappedFile(final File file) {
-      return file;
-    }
-
-  }
-
-  private class JavaSourcesSet extends FileSet {
-
-    private JavaSourcesSet() {
-      final File sourceDir = new File(mavenProject.getBuild().getSourceDirectory());
-      setDirectory(sourceDir);
+    JavaSourcesSet() {
+      setDirectory(getJavaSourceDirectory());
       setIncludes(Arrays.asList("**/*.java"));
     }
 
-  }
+    protected File getJavaSourceDirectory() {
+      return new File(mavenProject.getBuild().getSourceDirectory());
+    }
 
+  }
 }

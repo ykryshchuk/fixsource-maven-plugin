@@ -1,3 +1,4 @@
+// shall be removed
 package pkg;
 
 /**

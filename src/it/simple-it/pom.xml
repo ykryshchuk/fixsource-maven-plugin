@@ -30,6 +30,15 @@
             <configuration>
             </configuration>
           </execution>
+          <execution>
+            <id>fix-test-java-sources</id>
+            <phase>process-test-sources</phase>
+            <goals>
+              <goal>fix-test-java</goal>
+            </goals>
+            <configuration>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
     </plugins>
