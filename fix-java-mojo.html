@@ -18,7 +18,7 @@
   <body class="composite">
     <div id="banner">
                     <div id="bannerLeft">
-                Maven FixSource Plugin
+                FixSource Maven Plugin
                 </div>
                     <div class="clear">
         <hr/>
@@ -28,11 +28,11 @@
             
                     
                 <div class="xleft">
-        <span id="publishDate">Last Published: 2013-03-23 00:33</span>
+        <span id="publishDate">Last Published: 2013-03-23 23:14</span>
                       </div>
             <div class="xright">        
                     
-                 <span id="projectVersion">Version: 1.0</span>
+                 <span id="projectVersion">Version: 1.1</span>
       </div>
       <div class="clear">
         <hr/>
@@ -80,7 +80,7 @@
   
     <div class="section"><h2>fixsource:fix-java<a name="fixsource:fix-java"></a></h2>
       <p><b>Full name</b>:</p>
-      <p>com.kryshchuk.maven.plugins:fixsource-maven-plugin:1.0:fix-java</p>
+      <p>com.kryshchuk.maven.plugins:fixsource-maven-plugin:1.1:fix-java</p>
       <p><b>Description</b>:</p>
       <div>(no description)</div>
       <p><b>Attributes</b>:</p>
@@ -107,19 +107,25 @@
             <td><b><a href="#fixDevelopmentVersion">fixDevelopmentVersion</a></b></td>
             <td><tt>boolean</tt></td>
             <td><tt>-</tt></td>
-            <td>(no description)<br /><b>Default value is</b>: <tt>true</tt>.<br /><b>User property is</b>: <tt>fixjava.fixDevelopmentVersion</tt>.</td>
+            <td>(no description)<br /><b>Default value is</b>: <tt>true</tt>.<br /><b>User property is</b>: <tt>fixDevelopmentVersion</tt>.</td>
           </tr>
           <tr class="b">
             <td><b><a href="#fixHeader">fixHeader</a></b></td>
             <td><tt>boolean</tt></td>
             <td><tt>-</tt></td>
-            <td>(no description)<br /><b>Default value is</b>: <tt>true</tt>.<br /><b>User property is</b>: <tt>fixjava.fixHeader</tt>.</td>
+            <td>(no description)<br /><b>Default value is</b>: <tt>true</tt>.<br /><b>User property is</b>: <tt>fixHeader</tt>.</td>
           </tr>
           <tr class="a">
-            <td><b><a href="#headerTemplateFile">headerTemplateFile</a></b></td>
+            <td><b><a href="#header">header</a></b></td>
+            <td><tt>String</tt></td>
+            <td><tt>-</tt></td>
+            <td>(no description)<br /><b>User property is</b>: <tt>header</tt>.</td>
+          </tr>
+          <tr class="b">
+            <td><b><a href="#headerFile">headerFile</a></b></td>
             <td><tt>File</tt></td>
             <td><tt>-</tt></td>
-            <td>(no description)<br /><b>Default value is</b>: <tt>${basedir}/src/template/java-header.txt</tt>.<br /><b>User property is</b>: <tt>fixjava.headerTemplate</tt>.</td>
+            <td>(no description)<br /><b>User property is</b>: <tt>headerFile</tt>.</td>
           </tr>
         </table>
       </div>
@@ -136,22 +142,27 @@
         <ul>
           <li><b>Type</b>: <tt>boolean</tt></li>
           <li><b>Required</b>: <tt>No</tt></li>
-          <li><b>User Property</b>: <tt>fixjava.fixDevelopmentVersion</tt></li>
+          <li><b>User Property</b>: <tt>fixDevelopmentVersion</tt></li>
           <li><b>Default</b>: <tt>true</tt></li>
         </ul><hr /><p><b><a name="fixHeader">fixHeader</a>:</b></p>
         <div>(no description)</div>
         <ul>
           <li><b>Type</b>: <tt>boolean</tt></li>
           <li><b>Required</b>: <tt>No</tt></li>
-          <li><b>User Property</b>: <tt>fixjava.fixHeader</tt></li>
+          <li><b>User Property</b>: <tt>fixHeader</tt></li>
           <li><b>Default</b>: <tt>true</tt></li>
-        </ul><hr /><p><b><a name="headerTemplateFile">headerTemplateFile</a>:</b></p>
+        </ul><hr /><p><b><a name="header">header</a>:</b></p>
+        <div>(no description)</div>
+        <ul>
+          <li><b>Type</b>: <tt>java.lang.String</tt></li>
+          <li><b>Required</b>: <tt>No</tt></li>
+          <li><b>User Property</b>: <tt>header</tt></li>
+        </ul><hr /><p><b><a name="headerFile">headerFile</a>:</b></p>
         <div>(no description)</div>
         <ul>
           <li><b>Type</b>: <tt>java.io.File</tt></li>
           <li><b>Required</b>: <tt>No</tt></li>
-          <li><b>User Property</b>: <tt>fixjava.headerTemplate</tt></li>
-          <li><b>Default</b>: <tt>${basedir}/src/template/java-header.txt</tt></li>
+          <li><b>User Property</b>: <tt>headerFile</tt></li>
         </ul>
       </div>
     </div>
