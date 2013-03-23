@@ -8,6 +8,8 @@ import java.io.File;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 
+import com.kryshchuk.maven.plugins.filevisitor.FileSet;
+
 /**
  * @author yura
  */
@@ -15,7 +17,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 public class FixTestJavaMojo extends FixJavaMojo {
 
   @Override
-  protected JavaSourcesSet getJavaSourcesSet() {
+  protected FileSet getSourcesSet() {
     return new JavaTestSourcesSet();
   }
 

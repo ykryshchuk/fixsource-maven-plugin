@@ -7,6 +7,7 @@
   <groupId>com.kryshchuk.maven.plugins.it</groupId>
   <artifactId>fixsource-it</artifactId>
   <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
   <description>A simple IT verifying the basic use case.</description>
 
@@ -20,15 +21,40 @@
         <groupId>@project.groupId@</groupId>
         <artifactId>@project.artifactId@</artifactId>
         <version>@project.version@</version>
+        <configuration>
+          <header><![CDATA[
+            (C) Copyright 2013
+            The file is my property :)
+             
+            It is part of FixJavadoc Maven Plugin project.
+            
+            However, you can change or redistribute it according to the license terms.
+          ]]></header>
+        </configuration>
         <executions>
+          <execution>
+            <id>fix-xml-sources</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>fix-xml</goal>
+            </goals>
+            <configuration>
+              <fileset>
+                <directory>src/main/resources</directory>
+                <includes>
+                  <include>**/*.xml</include>
+                  <include>**/set?.data</include>
+                </includes>
+              </fileset>
+            </configuration>
+          </execution>
           <execution>
             <id>fix-java-sources</id>
             <phase>process-sources</phase>
             <goals>
               <goal>fix-java</goal>
             </goals>
-            <configuration>
-            </configuration>
+            <configuration> </configuration>
           </execution>
           <execution>
             <id>fix-test-java-sources</id>
@@ -36,12 +62,15 @@
             <goals>
               <goal>fix-test-java</goal>
             </goals>
-            <configuration>
-            </configuration>
+            <configuration> </configuration>
           </execution>
         </executions>
       </plugin>
     </plugins>
   </build>
-  
+
+  <modules>
+    <module>module1</module>
+  </modules>
+
 </project>

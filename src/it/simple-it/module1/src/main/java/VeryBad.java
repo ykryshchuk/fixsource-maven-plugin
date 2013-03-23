@@ -1,7 +1,7 @@
 /**
  * @sinceDevelopmentVersion
  */
-public class Bad {
+public class VeryBad {
   
   void badMethod() {
     

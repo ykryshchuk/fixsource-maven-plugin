@@ -11,7 +11,7 @@ package pkg;
 /**
  *
  */
-public class Sample2 {
+public class Sample12 {
 
   public void method1() {
 

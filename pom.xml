@@ -72,6 +72,18 @@
       <groupId>com.kryshchuk.maven.plugins</groupId>
       <artifactId>file-visitor</artifactId>
     </dependency>
+    
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.4</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.googlecode.slf4j-maven-plugin-log</groupId>
+      <artifactId>slf4j-maven-plugin-log</artifactId>
+      <version>1.0.0</version>
+    </dependency>
 
   </dependencies>
 
