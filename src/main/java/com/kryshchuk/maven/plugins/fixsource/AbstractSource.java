@@ -40,24 +40,18 @@ abstract class AbstractSource {
   }
 
   void read(final File file) throws IOException {
-    final FileReader reader = new FileReader(file);
-    try {
+    try (final FileReader reader = new FileReader(file)) {
       read(reader);
-    } finally {
-      reader.close();
     }
   }
 
   void store(final File file) throws IOException {
     final long startTime = System.nanoTime();
-    final BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-    try {
+    try (final BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
       for (final String line : lines) {
         writer.write(line);
         writer.write("\n");
       }
-    } finally {
-      writer.close();
     }
     final long storeTime = System.nanoTime() - startTime;
     logger.debug("File {} stored in {} ns", file, storeTime);

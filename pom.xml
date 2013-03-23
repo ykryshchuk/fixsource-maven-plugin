@@ -5,14 +5,14 @@
   <parent>
     <groupId>com.kryshchuk.maven.plugins</groupId>
     <artifactId>plugin-base</artifactId>
-    <version>1.1.1</version>
+    <version>1.2</version>
   </parent>
 
   <artifactId>fixsource-maven-plugin</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.1-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
-  <name>Maven FixSource Plugin</name>
+  <name>FixSource Maven Plugin</name>
 
   <description> This plugin helps to fix several issues in project's sources. </description>
 
@@ -52,40 +52,6 @@
     </plugins>
 
   </build>
-
-  <dependencyManagement>
-
-    <dependencies>
-
-    </dependencies>
-
-  </dependencyManagement>
-
-  <dependencies>
-
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-core</artifactId>
-    </dependency>
-    
-    <dependency>
-      <groupId>com.kryshchuk.maven.plugins</groupId>
-      <artifactId>file-visitor</artifactId>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>1.7.4</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>com.googlecode.slf4j-maven-plugin-log</groupId>
-      <artifactId>slf4j-maven-plugin-log</artifactId>
-      <version>1.0.0</version>
-    </dependency>
-
-  </dependencies>
 
   <properties>
     <plugin.goalPrefix>fixsource</plugin.goalPrefix>

@@ -18,6 +18,7 @@ import org.slf4j.impl.StaticLoggerBinder;
 import com.kryshchuk.maven.plugins.filevisitor.AbstractFileVisitor;
 import com.kryshchuk.maven.plugins.filevisitor.FileSet;
 import com.kryshchuk.maven.plugins.filevisitor.FileSetIterator;
+import com.kryshchuk.maven.plugins.filevisitor.IdentityFileMapper;
 import com.kryshchuk.maven.plugins.filevisitor.VisitorException;
 
 /**
@@ -79,6 +80,7 @@ public abstract class AbstractFixMojo extends AbstractMojo {
     return dryRun;
   }
 
+  @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
     StaticLoggerBinder.getSingleton().setLog(getLog());
     final FileSet sourcesSet = getSourcesSet();
@@ -110,11 +112,8 @@ public abstract class AbstractFixMojo extends AbstractMojo {
     protected void handleFile(final File inputFile, final File outputFile) throws VisitorException {
       try {
         final AbstractSource source = createSource();
-        final Reader reader = new FileReader(inputFile);
-        try {
+        try (final Reader reader = new FileReader(inputFile)) {
           source.read(reader);
-        } finally {
-          reader.close();
         }
         if (source.fix()) {
           if (isDryRun()) {
