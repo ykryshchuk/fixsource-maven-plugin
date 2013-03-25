@@ -1,5 +1,19 @@
-/**
+/*
+ * FixSource Maven Plugin.
+ * Copyright (C) 2013  Yuriy Kryshchuk
  * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.kryshchuk.maven.plugins.fixsource;
 
@@ -60,7 +74,7 @@ public class FixJavaMojo extends AbstractFixMojo {
       if (line.startsWith("package ") && packageLine == -1) {
         packageLine = index;
       }
-      if (line.indexOf("@sinceDevelopmentVersion") != -1) {
+      if (line.indexOf("@since 1.1.1") != -1) {
         developmentVersionLines.add(index);
       }
       return line;
@@ -73,7 +87,7 @@ public class FixJavaMojo extends AbstractFixMojo {
     boolean fix() {
       boolean developmentVersionFixed = false;
       for (final Integer idx : developmentVersionLines) {
-        lines.set(idx, lines.get(idx).replace("@sinceDevelopmentVersion", sinceVersion));
+        lines.set(idx, lines.get(idx).replace("@since 1.1.1", sinceVersion));
         developmentVersionFixed = true;
       }
       boolean headerFixed = false;

@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.kryshchuk.maven.plugins</groupId>
     <artifactId>plugin-base</artifactId>
-    <version>1.2.2</version>
+    <version>1.2.3-SNAPSHOT</version>
   </parent>
 
   <artifactId>fixsource-maven-plugin</artifactId>
@@ -48,9 +48,9 @@
       <plugin>
         <artifactId>maven-site-plugin</artifactId>
       </plugin>
-
+      
     </plugins>
-
+    
   </build>
   
   <properties>
