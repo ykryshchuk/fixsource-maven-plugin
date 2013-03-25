@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>fixsource-maven-plugin</artifactId>
-  <version>1.1.2</version>
+  <version>1.1.3-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
   <name>FixSource Maven Plugin</name>
@@ -24,7 +24,7 @@
     <connection>scm:git:git://github.com/ykryshchuk/fixsource-maven-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:ykryshchuk/fixsource-maven-plugin.git</developerConnection>
     <url>git@github.com:ykryshchuk/fixsource-maven-plugin.git</url>
-    <tag>fixsource-maven-plugin-1.1.2</tag>
+    <tag>fixsource-maven-plugin-1.1</tag>
   </scm>
 
   <distributionManagement>
