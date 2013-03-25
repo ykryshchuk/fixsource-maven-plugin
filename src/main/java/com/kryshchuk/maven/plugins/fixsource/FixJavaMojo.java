@@ -38,6 +38,11 @@ import com.kryshchuk.maven.plugins.filevisitor.FileSet;
 @Mojo(name = "fix-java", defaultPhase = LifecyclePhase.PROCESS_SOURCES, threadSafe = true, requiresProject = true)
 public class FixJavaMojo extends AbstractFixMojo {
 
+  /**
+   * Note, concatenation needed to avoid the 'fix' in this source.
+   */
+  private static final String JAVADOC_TAG_SINCEDEVVER = "@since" + "DevelopmentVersion";
+
   @Parameter(defaultValue = "${project}", required = true, readonly = true)
   protected MavenProject mavenProject;
 
@@ -74,7 +79,7 @@ public class FixJavaMojo extends AbstractFixMojo {
       if (line.startsWith("package ") && packageLine == -1) {
         packageLine = index;
       }
-      if (line.indexOf("@since 1.1.1") != -1) {
+      if (line.indexOf(JAVADOC_TAG_SINCEDEVVER) != -1) {
         developmentVersionLines.add(index);
       }
       return line;
@@ -87,7 +92,7 @@ public class FixJavaMojo extends AbstractFixMojo {
     boolean fix() {
       boolean developmentVersionFixed = false;
       for (final Integer idx : developmentVersionLines) {
-        lines.set(idx, lines.get(idx).replace("@since 1.1.1", sinceVersion));
+        lines.set(idx, lines.get(idx).replace(JAVADOC_TAG_SINCEDEVVER, sinceVersion));
         developmentVersionFixed = true;
       }
       boolean headerFixed = false;
