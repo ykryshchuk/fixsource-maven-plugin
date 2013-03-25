@@ -33,10 +33,19 @@ import org.apache.maven.project.MavenProject;
 import com.kryshchuk.maven.plugins.filevisitor.FileSet;
 
 /**
+ * Fixes the java sources by adding the header comments and replacing <code><i>@</i>sinceDevelopmentVersion</code> with
+ * a next suggested release version value.
+ * 
  * @author yura
+ * @since 1.0
  */
 @Mojo(name = "fix-java", defaultPhase = LifecyclePhase.PROCESS_SOURCES, threadSafe = true, requiresProject = true)
 public class FixJavaMojo extends AbstractFixMojo {
+
+  /**
+   * 
+   */
+  private static final String PACKAGE_KW = "package ";
 
   /**
    * Note, concatenation needed to avoid the 'fix' in this source.
@@ -76,7 +85,7 @@ public class FixJavaMojo extends AbstractFixMojo {
 
     @Override
     protected String handleLine(final String line, final int index) {
-      if (line.startsWith("package ") && packageLine == -1) {
+      if (line.startsWith(PACKAGE_KW) && packageLine == -1) {
         packageLine = index;
       }
       if (line.indexOf(JAVADOC_TAG_SINCEDEVVER) != -1) {
@@ -149,7 +158,7 @@ public class FixJavaMojo extends AbstractFixMojo {
           }
         }
         final String packageLine = javaLines.next();
-        return packageLine.startsWith("package ");
+        return packageLine.startsWith(PACKAGE_KW);
       } else {
         return false;
       }
