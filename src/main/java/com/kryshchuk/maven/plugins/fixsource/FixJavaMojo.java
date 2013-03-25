@@ -81,14 +81,17 @@ public class FixJavaMojo extends AbstractFixMojo {
 
     private int packageLine = -1;
 
+    private int packageAnnLine = -1;
+
     private final List<Integer> developmentVersionLines = new LinkedList<Integer>();
 
     @Override
     protected String handleLine(final String line, final int index) {
-      if (line.startsWith(PACKAGE_KW) && packageLine == -1) {
+      if (line.startsWith("@") && packageLine == -1 && packageAnnLine == -1) {
+        packageAnnLine = index;
+      } else if (line.startsWith(PACKAGE_KW) && packageLine == -1) {
         packageLine = index;
-      }
-      if (line.indexOf(JAVADOC_TAG_SINCEDEVVER) != -1) {
+      } else if (line.indexOf(JAVADOC_TAG_SINCEDEVVER) != -1) {
         developmentVersionLines.add(index);
       }
       return line;
@@ -106,16 +109,30 @@ public class FixJavaMojo extends AbstractFixMojo {
       }
       boolean headerFixed = false;
       if (!headerSource.matches(this)) {
-        while (packageLine-- > 0) {
+        int linesToRemove;
+        if (packageLine == -1) {
+          linesToRemove = 0;
+        } else {
+          if (packageAnnLine == -1) {
+            linesToRemove = packageLine;
+          } else {
+            linesToRemove = packageAnnLine;
+          }
+        }
+        for (int i = 0; i < linesToRemove; i++) {
           lines.remove(0);
         }
         lines.addAll(0, headerSource.lines);
-        packageLine = headerSource.lines.size();
+        if (packageAnnLine != -1) {
+          packageAnnLine = packageAnnLine - linesToRemove + headerSource.lines.size();
+        }
+        if (packageLine != -1) {
+          packageLine = packageLine - linesToRemove + headerSource.lines.size();
+        }
         headerFixed = true;
       }
       return developmentVersionFixed || headerFixed;
     }
-
   }
 
   class JavaSourcesSet extends FileSet {
@@ -158,7 +175,7 @@ public class FixJavaMojo extends AbstractFixMojo {
           }
         }
         final String packageLine = javaLines.next();
-        return packageLine.startsWith(PACKAGE_KW);
+        return packageLine.startsWith(PACKAGE_KW) || packageLine.startsWith("@");
       } else {
         return false;
       }
