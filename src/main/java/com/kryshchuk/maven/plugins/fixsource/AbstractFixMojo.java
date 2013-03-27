@@ -95,7 +95,7 @@ public abstract class AbstractFixMojo extends AbstractMojo {
   }
 
   /**
-   * @sinceDevelopmentVersion
+   * @since 1.1.5
    */
   protected boolean isFixHeader() {
     return fixHeader;
