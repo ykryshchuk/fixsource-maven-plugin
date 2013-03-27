@@ -94,6 +94,13 @@ public abstract class AbstractFixMojo extends AbstractMojo {
     return dryRun;
   }
 
+  /**
+   * @sinceDevelopmentVersion
+   */
+  protected boolean isFixHeader() {
+    return fixHeader;
+  }
+
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
     StaticLoggerBinder.getSingleton().setLog(getLog());

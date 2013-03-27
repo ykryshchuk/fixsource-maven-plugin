@@ -103,33 +103,37 @@ public class FixJavaMojo extends AbstractFixMojo {
     @Override
     boolean fix() {
       boolean developmentVersionFixed = false;
-      for (final Integer idx : developmentVersionLines) {
-        lines.set(idx, lines.get(idx).replace(JAVADOC_TAG_SINCEDEVVER, sinceVersion));
-        developmentVersionFixed = true;
+      if (fixDevelopmentVersion) {
+        for (final Integer idx : developmentVersionLines) {
+          lines.set(idx, lines.get(idx).replace(JAVADOC_TAG_SINCEDEVVER, sinceVersion));
+          developmentVersionFixed = true;
+        }
       }
       boolean headerFixed = false;
-      if (!headerSource.matches(this)) {
-        int linesToRemove;
-        if (packageLine == -1) {
-          linesToRemove = 0;
-        } else {
-          if (packageAnnLine == -1) {
-            linesToRemove = packageLine;
+      if (isFixHeader()) {
+        if (!headerSource.matches(this)) {
+          int linesToRemove;
+          if (packageLine == -1) {
+            linesToRemove = 0;
           } else {
-            linesToRemove = packageAnnLine;
+            if (packageAnnLine == -1) {
+              linesToRemove = packageLine;
+            } else {
+              linesToRemove = packageAnnLine;
+            }
           }
+          for (int i = 0; i < linesToRemove; i++) {
+            lines.remove(0);
+          }
+          lines.addAll(0, headerSource.lines);
+          if (packageAnnLine != -1) {
+            packageAnnLine = packageAnnLine - linesToRemove + headerSource.lines.size();
+          }
+          if (packageLine != -1) {
+            packageLine = packageLine - linesToRemove + headerSource.lines.size();
+          }
+          headerFixed = true;
         }
-        for (int i = 0; i < linesToRemove; i++) {
-          lines.remove(0);
-        }
-        lines.addAll(0, headerSource.lines);
-        if (packageAnnLine != -1) {
-          packageAnnLine = packageAnnLine - linesToRemove + headerSource.lines.size();
-        }
-        if (packageLine != -1) {
-          packageLine = packageLine - linesToRemove + headerSource.lines.size();
-        }
-        headerFixed = true;
       }
       return developmentVersionFixed || headerFixed;
     }

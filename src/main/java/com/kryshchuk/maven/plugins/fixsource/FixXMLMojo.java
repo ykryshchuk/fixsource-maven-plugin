@@ -77,13 +77,15 @@ public class FixXMLMojo extends AbstractFixMojo {
     @Override
     boolean fix() {
       boolean headerFixed = false;
-      if (!headerSource.matches(this)) {
-        while (rootElementLine > (lastDirectiveLine + 1)) {
-          lines.remove(--rootElementLine);
+      if (isFixHeader()) {
+        if (!headerSource.matches(this)) {
+          while (rootElementLine > (lastDirectiveLine + 1)) {
+            lines.remove(--rootElementLine);
+          }
+          lines.addAll(rootElementLine, headerSource.lines);
+          rootElementLine += headerSource.lines.size();
+          headerFixed = true;
         }
-        lines.addAll(rootElementLine, headerSource.lines);
-        rootElementLine += headerSource.lines.size();
-        headerFixed = true;
       }
       return headerFixed;
     }
