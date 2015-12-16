@@ -33,7 +33,7 @@
     <site>
       <id>plugin.site</id>
       <name>Project site</name>
-      <url>${project.siteUrl}</url>
+      <url>${local.sites.url}/fixsource-maven-plugin/</url>
     </site>
 
   </distributionManagement>
