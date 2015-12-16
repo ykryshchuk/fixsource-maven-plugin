@@ -1,15 +1,24 @@
-# build image from Docker Hub (see https://registry.hub.docker.com/repos/shippableimages/)
+# language setting
 language: java
+# jdk tag
 jdk:
-  - openjdk7
-build_image: shippableimages/ubuntu1404_java
+- oraclejdk8
+env:
+- FOO=foo
+# Mongo binds to 127.0.0.1 by default
+## services:
+## - mongodb
 before_install:
-  - apt-get install -y maven
+- echo "Before install"
+install:
+- echo "Install"
 before_script:
-  - export JAVA_HOME="/usr/lib/jvm/java-7-openjdk-amd64"
-  - export PATH="$PATH:/usr/lib/jvm/java-7-openjdk-amd64/bin"
-  - export java_path="/usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java"
-  - update-alternatives --set java $java_path
+- echo "Before script"
 script:
-  - mvn -B -V clean install
-  
+- mvn -B clean package -PShippable
+after_success:
+- echo "After success"
+after_failure:
+- echo "After failure"
+after_script:
+- echo "After script"
